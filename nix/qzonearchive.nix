@@ -19,7 +19,7 @@ rustPlatform.buildRustPackage {
 
   npmDeps = pkgs.fetchNpmDeps {
     name = "qzonearchive-1.0.3-npm-deps";
-    inherit (lib.cleanSource ../.) src;
+    src = lib.cleanSource ../.;
     hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
   };
 
