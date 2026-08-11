@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "空间归档",
+  "productName": "QzoneArchive",
   "version": "1.0.3",
   "identifier": "top.ehre.qzonearchive",
   "build": {
@@ -47,11 +47,6 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "linux": {
-      "deb": {
-        "packageName": "qzonearchive"
-      }
-    },
     "windows": {
       "webviewInstallMode": {
         "type": "downloadBootstrapper",
