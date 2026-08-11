@@ -377,8 +377,7 @@ jobs:
           echo "$DRV_OUT_PATH" > nixos-package/store-path.txt
 
           nix-store --export "$DRV_OUT_PATH" > nixos-package/qzonearchive.closure
-          nh-size=$(stat -c %s nixos-package/qzonearchive.closure)
-          echo "Closure size: $nh-size"
+          echo "Closure size: $(stat -c %s nixos-package/qzonearchive.closure)"
 
           rm -rf qzonearchive
           cp -Lr "$DRV_OUT_PATH" qzonearchive
