@@ -26,8 +26,8 @@ rustPlatform.buildRustPackage {
   nativeBuildInputs = [
     nodejs
     pkgs.npmHooks.npmConfigHook
-    pkg-config
-    cmake
+    pkgs.pkg-config
+    pkgs.cmake
     cargo-tauri.hook
   ] ++ lib.optionals stdenv.hostPlatform.isLinux [
     pkgs.wrapGAppsHook4
