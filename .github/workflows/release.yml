@@ -371,11 +371,35 @@ jobs:
           mkdir -p dist/nix
           nix build --extra-experimental-features "nix-command flakes" -L .#qzonearchive
 
+          DRV_OUT_PATH="$(readlink -f result)"
+          echo "Nix output: $DRV_OUT_PATH"
+          mkdir -p nixos-package
+          echo "$DRV_OUT_PATH" > nixos-package/store-path.txt
+
+          nix-store --export "$DRV_OUT_PATH" > nixos-package/qzonearchive.closure
+          nh-size=$(stat -c %s nixos-package/qzonearchive.closure)
+          echo "Closure size: $nh-size"
+
           rm -rf qzonearchive
-          cp -Lr result qzonearchive
+          cp -Lr "$DRV_OUT_PATH" qzonearchive
+
+          cat > nixos-package/install.sh <<'EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          echo "Install steps for this NixOS release package:"
+          echo ""
+          echo "  nix-store --import < qzonearchive.closure"
+          echo "  nix profile install /nix/store/PATH-qzonearchive-1.0.3"
+          echo ""
+          echo "Replace /nix/store/PATH-qzonearchive-1.0.3 with the store path from"
+          echo "the github artifact README or the closure top record."
+          EOF
+          chmod +x nixos-package/install.sh
 
           tar -czf dist/nix/qzonearchive-nixos-x86_64-linux.tar.gz \
-            qzonearchive
+            qzonearchive \
+            nixos-package
           ls -lh dist/nix
 
       - name: Upload NixOS package
