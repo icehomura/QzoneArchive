@@ -371,9 +371,11 @@ jobs:
           mkdir -p dist/nix
           nix build --extra-experimental-features "nix-command flakes" -L .#qzonearchive
 
+          rm -rf qzonearchive
+          cp -Lr result qzonearchive
+
           tar -czf dist/nix/qzonearchive-nixos-x86_64-linux.tar.gz \
-            -C "$(dirname "$(readlink -f result)")" \
-            "$(basename "$(readlink -f result)")"
+            qzonearchive
           ls -lh dist/nix
 
       - name: Upload NixOS package
